@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # lib.sh — shared path helpers for bonk scripts. Source it; do not execute.
-set -uo pipefail
+# Intentionally sets no shell options: a sourced library must not impose
+# `set -u`/`pipefail` on its caller. Callers own their own shell options.
 
 # bonk_root: git toplevel if inside a repo, else the current directory.
 bonk_root() {

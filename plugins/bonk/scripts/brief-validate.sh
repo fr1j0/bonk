@@ -17,7 +17,7 @@ if [[ ! -f "$path" ]]; then
 fi
 
 for section in "## Goal" "## Verified facts" "## Corrected approach" "## Do not redo"; do
-  if ! grep -qF "$section" "$path"; then
+  if ! grep -qxF "$section" "$path"; then
     printf "malformed brief: missing section '%s'\n" "$section" >&2
     exit 4
   fi
