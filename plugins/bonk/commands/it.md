@@ -23,56 +23,91 @@ session from your own memory instead.
 
 ## Step 2 — Produce the re-grounding report
 
-Output these sections, in order:
+Reason in whatever order you need internally, but EMIT the report in the reading
+order of the skeleton below. Render it as RICH MARKDOWN — it is shown to a human in a
+terminal, so make it scannable: a title, a blockquote verdict callout, bold labels,
+the confidence icons, and `---` rules between blocks. Do NOT skip the analysis to
+reach the verdict faster — the verdict must be earned by the problems beneath it.
 
-1. **Goal** — restate the user's original objective in one sentence, in your own
-   words. If it has drifted from what they actually asked for, flag the drift.
+Confidence icons (coarse buckets only — NEVER percentages): 🔴 Low · 🟡 Medium · 🟢 High.
 
-2. **Assumption ledger** — a table of every assumption currently load-bearing in
-   your approach, one row each:
+Source tags: `<source>` ∈ {from-user, from-file, inferred, guessed}. Be ruthless —
+anything you did not directly read or get told is `inferred` or `guessed`, not
+`from-file`/`from-user`.
 
-   | Assumption | Source | Confidence | Evidence / what would flip it |
+Before emitting anything, resolve an ambiguous fork: if the hint is vague (names no
+specific fork) AND more than one 🔴 Low-confidence foundational fork is plausible, do
+NOT pick one silently — list the candidate divergence points (one line each) and ask
+the user which they mean before producing the report. When the hint clearly points at
+one fork, or only one Low-confidence fork exists, pick it and proceed. (If the evidence
+shows no wrong turn at all, say so — don't manufacture one to match the hint.)
 
-   - Source ∈ {from-user, from-file, inferred, guessed}.
-   - Confidence ∈ {High, Medium, Low} — coarse buckets only, NEVER percentages
-     (you have no calibrated probability to report).
-   - Be ruthless: anything you did not directly read or get told is `inferred` or
-     `guessed`, not `from-file`/`from-user`.
+The verdict is internally `RESTART` or `CONTINUE` (see the Verdict rule below) — it is
+shown to the human ONLY as the plain-language callout, never as the bare token. Emit
+the report using EXACTLY this skeleton; start with the title (NO `---` above it), then
+put a `---` rule between each later block:
 
-3. **Divergence point** — the last moment you were definitely on track, and the
-   turn or decision that introduced the suspected wrong fork. Use the hint as a
-   lead.
+    # 🧭 Drift check
+    **Cause —** <one plain sentence: what pulled the work off course, and that the user triggered this check>
 
-   Clarify before committing: if the hint is vague (names no specific fork) AND
-   more than one `Low`-confidence foundational fork is plausible, do NOT pick one
-   silently. List the candidate divergence points (one line each) and ask the user
-   which they mean before continuing to the verdict. When the hint clearly points
-   at one fork, or only one Low-confidence fork exists, pick it and proceed — do
-   not ask. (If the evidence shows no wrong turn at all, say so — don't manufacture
-   one to match the hint.)
+    ---
 
-4. **Dismissed alternatives** — 2–3 interpretations or approaches you previously
-   rejected or never seriously considered. State each plainly.
+    > ## 🛑 Verdict — START OVER (clean slate)
+    > <2–3 plain sentences: the call and why. NO jargon — never "re-ground", "brief", or "context window".>
+    >
+    > **What's wrong** — <the load-bearing bad assumption(s), in plain words>
+    > **The fix** — <the corrective action>
+    > **How the restart happens** — I save a short summary (confirmed facts + corrected plan) to a file; you run `/clear`, then `/bonk:resume` reloads it so we keep working without the wrong assumption following along.
 
-5. **Artifact inventory** — the files from Step 1 attributable to the suspected
-   wrong path. **Identify only — do NOT run any destructive or undo command
-   yourself.** For undo, advise the user:
-   - uncommitted edits made by your edit tools → `/rewind` (code-only restore).
-   - committed changes, or anything a bash command created/moved → git
-     (`git checkout -- <file>` / `git revert <sha>`); `/rewind` cannot undo these.
+    ---
 
-6. **Verdict** — decide `continue-in-place` vs `restart`:
-   - If any FOUNDATIONAL assumption (the goal itself, or the core approach) is
-     `Low` confidence → `restart`.
-   - Otherwise → `continue-in-place`.
+    ### ⚖️ Load-bearing problems
 
-## Step 3a — If verdict is `continue-in-place`
+    **🔴 ①  <assumption, stated plainly>**
+    > <source> — <why it's shaky, one line>
+    > *flips:* <what evidence would confirm or kill it>
+
+    ✅ **Solid** — (from-user) <fact> · (from-file) <fact>
+
+    ---
+
+    ### 📋 Context
+
+    | | |
+    |---|---|
+    | **Goal** | <one sentence; prefix "⚠ drift:" only if it drifted from the ask> |
+    | **Divergence** | <the one turn/decision that introduced the wrong fork> |
+    | **Dismissed** | <2–3 alternatives never seriously considered, "·"-separated> |
+    | **Artifacts** | ✅ clean — nothing to undo |
+
+Skeleton rules:
+- **Verdict callout.** The skeleton shows the `RESTART` form. On `CONTINUE`, swap it to
+  `> ## ✅ Verdict — KEEP GOING (just fix one thing)`, DROP the "How the restart happens"
+  line, and let "The fix" be the in-place correction you then proceed with.
+- **Load-bearing problems.** One block per assumption that is load-bearing AND not 🟢
+  High, worst first (🔴 before 🟡); number them ①②③. If nothing is both load-bearing AND
+  shaky (nothing is actually wrong), say so plainly instead of a block list — do NOT
+  manufacture a problem. `✅ Solid` collapses the trusted (🟢 High) facts to one line.
+- **Context table.** Omit any row that carries no information. `Artifacts` is
+  `✅ clean — nothing to undo` when the tree is clean; expand it to the file list + undo
+  guidance ONLY when wrong-path residue exists:
+  - uncommitted edits made by your edit tools → `/rewind` (code-only restore).
+  - committed changes, or anything a bash command created/moved → git
+    (`git checkout -- <file>` / `git revert <sha>`); `/rewind` cannot undo these.
+
+### Verdict rule
+
+If any FOUNDATIONAL assumption (the goal itself, or the core approach) is 🔴 Low →
+`RESTART` (render the 🛑 "START OVER" callout, then go to Step 3b). Otherwise →
+`CONTINUE` (render the ✅ "KEEP GOING" callout, then go to Step 3a).
+
+## Step 3a — If verdict is CONTINUE
 
 Explicitly list which bad assumptions you are discarding, restate the corrected
 understanding in a sentence or two, and proceed with the task. Do NOT spawn a
 subagent. Stop here.
 
-## Step 3b — If verdict is `restart`
+## Step 3b — If verdict is RESTART
 
 1. Distill a CLEAN SEED: the goal + ONLY the `from-user`/`from-file` facts. Strip
    every `inferred`/`guessed` assumption and all wrong-turn narrative.
@@ -86,7 +121,9 @@ subagent. Stop here.
 
 3. Present the subagent's result as a DELTA against your original assumption
    ledger: **kept / dropped / contradicted**, with contradictions FIRST — a blind
-   subagent contradicting you is the strongest signal you took a wrong turn.
+   subagent contradicting you is the strongest signal you took a wrong turn. Use the
+   same confidence icons as the report (🔴 Low · 🟡 Medium · 🟢 High) so the delta
+   reads consistently with Step 2.
 
 4. Present the DRAFT brief as a formatted block — **do NOT write any file yet** —
    filling in EXACTLY this template (the resume command validates these four
