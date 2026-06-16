@@ -47,7 +47,11 @@ printf '%s\n' "$path"
 # git-ignored, so the brief only ever lives in the working tree.
 if find "$path" -mtime +0 2>/dev/null | grep -q .; then
   now=$(date +%s)
-  mt=$(stat -f %m "$path" 2>/dev/null || stat -c %Y "$path" 2>/dev/null || echo "$now")
+  # GNU stat (-c) first, then BSD/macOS stat (-f). Guard the result to digits:
+  # on the "wrong" platform the other stat can print non-numeric noise instead
+  # of failing, which would break the arithmetic under `set -u`.
+  mt=$(stat -c %Y "$path" 2>/dev/null || stat -f %m "$path" 2>/dev/null || echo "$now")
+  case "$mt" in ''|*[!0-9]*) mt=$now ;; esac
   days=$(( (now - mt) / 86400 ))
   printf "warning: brief is %d day(s) old — confirm it's still the task you mean\n" "$days" >&2
 fi
