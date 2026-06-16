@@ -23,6 +23,7 @@ jobs:
           REPO: ${{ github.repository }}
           PR: ${{ github.event.pull_request.number }}
           OWNER: ${{ github.repository_owner }}
+          AUTHOR: ${{ github.event.pull_request.user.login }}
         shell: bash
         run: |
           set -euo pipefail
@@ -151,6 +152,18 @@ jobs:
             )
             post_or_update_sticky "${SKIP_NOTE}${msg}"
             exit 1
+          fi
+
+          # ------------------------------------------------------------------
+          # Owner-authored PRs: the creator (@OWNER) need not approve their own
+          # work with ready-for-dev. A linked issue is still required (enforced
+          # above) — but any triage state (e.g. needs-triage) suffices. This
+          # bypass is author-gated, so it never helps an external contributor's PR.
+          # ------------------------------------------------------------------
+          if [ "$AUTHOR" = "$OWNER" ]; then
+            list=$(printf '%s\n' "$linked" | cut -f1 | paste -sd, - | sed 's/,/, #/g')
+            post_or_update_sticky "${SKIP_NOTE}Gate passed — owner-authored PR (@${AUTHOR}), linked to issue(s) #${list}."
+            exit 0
           fi
 
           # ------------------------------------------------------------------
