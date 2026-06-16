@@ -1,0 +1,10 @@
+{
+  "name": "bonk",
+  "description": "Pattern-interrupt + context re-grounding for Claude Code: stop the wrong path, audit assumptions, restart from clean context.",
+  "version": "0.1.0",
+  "author": { "name": "Fernando Castillo" },
+  "license": "MIT",
+  "homepage": "https://github.com/fr1j0/bonk",
+  "repository": "https://github.com/fr1j0/bonk",
+  "keywords": ["claude-code", "context", "re-grounding", "productivity", "agents"]
+}
