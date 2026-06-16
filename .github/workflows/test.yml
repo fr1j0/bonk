@@ -18,6 +18,9 @@ jobs:
         # --severity=warning suppresses info-level findings (e.g. SC1091
         # unresolved `source` paths for lib.sh, resolved only at runtime).
         run: shellcheck --severity=warning plugins/bonk/scripts/*.sh
+      - name: Manifest versions in sync
+        # Fail the build if plugin.json and marketplace.json disagree (issue #28).
+        run: bash plugins/bonk/scripts/check-version-sync.sh
 
   shell-tests:
     strategy:
