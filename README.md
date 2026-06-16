@@ -38,6 +38,9 @@ Esc            # stop the wrong-path execution immediately
 /bonk [hint]   # re-ground on the clean state
 ```
 
+> Note: `/rewind` only undoes edits made by Claude's edit tools — not bash
+> side-effects (`rm`/`mv`/generated files), which need git.
+
 ## Commands
 
 - **`/bonk [optional hint]`** — emits a structured re-grounding report (goal
