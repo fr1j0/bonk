@@ -108,7 +108,9 @@ subagent. Stop here.
 
 3. Present the subagent's result as a DELTA against your original assumption
    ledger: **kept / dropped / contradicted**, with contradictions FIRST — a blind
-   subagent contradicting you is the strongest signal you took a wrong turn.
+   subagent contradicting you is the strongest signal you took a wrong turn. Use the
+   same confidence icons as the report (🔴 Low · 🟡 Medium · 🟢 High) so the delta
+   reads consistently with Step 2.
 
 4. Present the DRAFT brief as a formatted block — **do NOT write any file yet** —
    filling in EXACTLY this template (the resume command validates these four
