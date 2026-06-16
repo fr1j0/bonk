@@ -17,7 +17,10 @@ Run:
   produce one." Then stop.
 - Exit 4 (malformed): report which section the script said is missing, and ask the
   user to fix `.bonk/clean-brief.md`. Then stop.
-- Exit 0: the script prints the brief path. Read that file.
+- Exit 0: the script prints the brief path. Read that file. If it ALSO prints a
+  `warning: brief is N day(s) old` line on stderr, the brief may describe a task
+  you've moved on from — surface that warning to the user and have them confirm
+  it's still the task they mean before you plan.
 
 ## Step 2 — Rehydrate
 
@@ -28,6 +31,14 @@ Read the brief file at the path the script printed (by default
   known),
 - the **Corrected approach** as your starting direction,
 - **Do not redo** as paths/work to avoid repeating.
+
+Once you have internalized the brief, mark it consumed so a later `/bonk:resume`
+without a fresh `/bonk:it` can't silently reload this same (now-stale) state:
+
+    bash "${CLAUDE_PLUGIN_ROOT}/scripts/brief-consume.sh"
+
+It renames the brief to `clean-brief.used.md` (recoverable, not deleted). You have
+already loaded everything you need, so this does not lose any context.
 
 ## Step 3 — Plan on clean context
 

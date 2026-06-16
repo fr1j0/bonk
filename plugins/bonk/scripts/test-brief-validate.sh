@@ -41,5 +41,28 @@ Do the thing.
 EOF
 bash "$SCRIPT" "$m" >/dev/null 2>&1
 [[ $? -eq 4 ]] && pass "malformed → exit 4" || bad "malformed: wrong exit"
-rm -f "$v" "$m"
+
+# 4. Present-but-empty section ("## Verified facts" has no body) → exit 4
+e="$(mktemp)"
+cat > "$e" <<'EOF'
+# bonk clean brief
+## Goal
+Do the thing.
+## Verified facts
+## Corrected approach
+- step
+## Do not redo
+- y
+EOF
+err="$(bash "$SCRIPT" "$e" 2>&1 >/dev/null)"; code=$?
+{ [[ $code -eq 4 ]] && grep -q "empty section" <<<"$err"; } \
+  && pass "empty section → exit 4" || bad "empty section: got '$err' ($code)"
+
+# 5. Stale brief (mtime > 1 day) → still exit 0, but warns on stderr
+touch -t 202001010000 "$v"
+err="$(bash "$SCRIPT" "$v" 2>&1 >/dev/null)"; code=$?
+{ [[ $code -eq 0 ]] && grep -q "day(s) old" <<<"$err"; } \
+  && pass "stale brief → 0 + warning" || bad "stale: got '$err' ($code)"
+
+rm -f "$v" "$m" "$e"
 exit $fail
