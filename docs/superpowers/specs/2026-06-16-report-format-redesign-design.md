@@ -150,3 +150,58 @@ maintainer's standing release-tag preference.
 - Manual dogfood from a consuming repo: run `/bonk:it` on a genuinely drifted
   session and confirm the Bottom line appears first, problems are severity-sorted
   and icon-marked, and empty supporting lines are omitted.
+
+---
+
+## Revision 2026-06-16 — rich-markdown look (supersedes the monospace layout above)
+
+After visually validating the monospace version, we switched the report to a
+**rich-markdown** presentation, tuned for human readability. The reading-order
+principle, severity-led problems, trimmed context, and all out-of-scope guarantees
+(verdict rule, #18 gate, #19 clarify-gate, brief template) are UNCHANGED — only the
+visual rendering changed. Final skeleton:
+
+    # 🧭 Drift check
+    **Cause —** <one plain sentence: what pulled the work off course; that the user triggered this>
+
+    ---
+
+    > ## 🛑 Verdict — START OVER (clean slate)        (RESTART)
+    > <2–3 plain sentences, NO jargon — never "re-ground"/"brief"/"context window">
+    >
+    > **What's wrong** — <bad assumption(s)>
+    > **The fix** — <corrective action>
+    > **How the restart happens** — save a summary → you `/clear` → `/bonk:resume` reloads it
+
+    ---
+
+    ### ⚖️ Load-bearing problems
+    **🔴 ①  <assumption>**
+    > <source> — <why shaky>
+    > *flips:* <what would confirm/kill it>
+
+    ✅ **Solid** — (from-user) <fact> · (from-file) <fact>
+
+    ---
+
+    ### 📋 Context   (2-column table; omit empty rows)
+
+Key human-readability decisions, all from live review:
+
+- **Title + Cause first.** `# 🧭 Drift check` frames *what this is*; the `Cause —`
+  line states *why it fired* in one plain sentence — before the verdict.
+- **No jargon in the verdict.** The bare token `RESTART`/`CONTINUE` is internal-only
+  (drives routing to Step 3b/3a). The human sees a plain action: **START OVER
+  (clean slate)** / **KEEP GOING (just fix one thing)**, and for START OVER the
+  callout spells out the mechanic (save summary → `/clear` → `/bonk:resume`) without
+  insider words.
+- **Verdict as a blockquote callout** with a 🛑/✅ colour cue — the eye lands on it
+  first.
+- **Problems stay scannable blocks** (bold title + 🔴/🟡, detail in a quote, a
+  `flips:` line) — deliberately NOT a table, since the dense assumptions-table was
+  the original complaint. The `Context` reference info DOES use a 2-column table.
+- **`---` rules between blocks** (but NOT above the title) for clear visual bands.
+
+The golden sample `plugins/bonk/scripts/preview-report.sh` now emits this markdown
+and renders it through `glow`/`mdcat`/`bat` when available (raw fallback otherwise).
+`test-report-format-drift.sh` markers updated to the new vocabulary.
