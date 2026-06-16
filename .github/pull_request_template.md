@@ -3,8 +3,9 @@
 Closes #<!-- issue number -->
 
 <!--
-Changes should start from an approved issue (see CONTRIBUTING.md). Typo-only,
-CI-only, or docs-only fixes by a maintainer are the usual exceptions.
+A linked issue is required — the Issue gate workflow checks it (see CONTRIBUTING.md).
+External PRs need the issue labeled `ready-for-dev` by the owner; the owner's own
+PRs pass with any linked issue. Typo/CI/docs-only fixes can use `skip-issue-check`.
 -->
 
 ## What & why
@@ -17,6 +18,7 @@ CI-only, or docs-only fixes by a maintainer are the usual exceptions.
 
 ## Checklist
 
+- [ ] Linked to an issue (or carries owner-applied `skip-issue-check`).
 - [ ] Branch name follows `<type>/issue-<N>-<slug>` (e.g. `fix/issue-7-subdir-path`).
 - [ ] `shellcheck --severity=warning plugins/bonk/scripts/*.sh` is clean.
 - [ ] `bash plugins/bonk/scripts/test.sh` passes.
