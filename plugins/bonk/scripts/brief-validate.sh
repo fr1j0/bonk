@@ -12,7 +12,7 @@ DIR="$(cd "$(dirname "$0")" && pwd)"
 path="${1:-$(brief_path)}"
 
 if [[ ! -f "$path" ]]; then
-  printf 'no brief found at %s; run /bonk first\n' "$path" >&2
+  printf 'no brief found at %s; run /bonk:it first\n' "$path" >&2
   exit 3
 fi
 

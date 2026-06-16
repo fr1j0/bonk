@@ -7,7 +7,7 @@
     {
       "name": "bonk",
       "description": "Stop the agent's wrong path, audit its assumptions, and restart from clean context via a fresh-context subagent.",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "source": "./plugins/bonk",
       "author": { "name": "Fernando Castillo" },
       "license": "MIT",

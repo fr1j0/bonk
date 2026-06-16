@@ -35,7 +35,7 @@ In Claude Code:
 /plugin install bonk@bonk
 ```
 
-Then use `/bonk` and `/bonk:resume`.
+Then use `/bonk:it` and `/bonk:resume`.
 
 ## Usage ritual
 
@@ -46,7 +46,7 @@ running turn — only `Esc` can):
 Esc            # stop the wrong-path execution immediately
 (Esc Esc       # optional: rewind to undo bad edits
  or /rewind)
-/bonk [hint]   # re-ground on the clean state
+/bonk:it [hint] # re-ground on the clean state
 ```
 
 > Note: `/rewind` only undoes edits made by Claude's edit tools — not bash
@@ -54,7 +54,7 @@ Esc            # stop the wrong-path execution immediately
 
 ## Commands
 
-- **`/bonk [optional hint]`** — emits a structured re-grounding report (goal
+- **`/bonk:it [optional hint]`** — emits a structured re-grounding report (goal
   restatement, per-assumption confidence ledger, divergence point, dismissed
   alternatives, artifact inventory) and a verdict: continue-in-place, or restart.
   On restart, a fresh-context subagent re-derives the approach blind to the bad
