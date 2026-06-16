@@ -105,6 +105,15 @@ subagent. Stop here.
    subagent is only for when the whole approach is wrong — it is not the default
    loop. Write the file ONLY after the user explicitly confirms.
 
+   Make the required action unmistakable. End your message with the action as the
+   LAST thing, on its own line, set off as a blockquote — never trailing in prose.
+   Any open questions you have go in the body ABOVE it and must be framed as
+   optional ("answer inline if useful — they don't block confirming"), so they
+   never compete with the action. Use exactly:
+
+   > **Action:** reply `confirm` to write the brief — or reply with edits.
+   > (Re-dispatch the subagent only if the whole approach is wrong.)
+
 6. On explicit confirmation, write the final (possibly user-edited) brief to
    `.bonk/clean-brief.md`, then tell the user verbatim:
 
