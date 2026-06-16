@@ -23,64 +23,83 @@ session from your own memory instead.
 
 ## Step 2 — Produce the re-grounding report
 
-Reason in whatever order you need internally, but EMIT the report in this reading
-order: bottom line first, analysis after. Do NOT skip the analysis to reach the
-bottom line faster — the verdict must be earned by the ledger beneath it.
+Reason in whatever order you need internally, but EMIT the report in the reading
+order of the skeleton below. Render it as RICH MARKDOWN — it is shown to a human in a
+terminal, so make it scannable: a title, a blockquote verdict callout, bold labels,
+the confidence icons, and `---` rules between blocks. Do NOT skip the analysis to
+reach the verdict faster — the verdict must be earned by the problems beneath it.
 
 Confidence icons (coarse buckets only — NEVER percentages): 🔴 Low · 🟡 Medium · 🟢 High.
 
-Before emitting anything, resolve an ambiguous fork: if the hint is vague (names no specific fork) AND more than one 🔴 Low-confidence foundational fork is plausible, do NOT pick one silently — list the candidate divergence points (one line each) and ask the user which they mean before producing the report. When the hint clearly points at one fork, or only one Low-confidence fork exists, pick it and proceed. (If the evidence shows no wrong turn at all, say so — don't manufacture one to match the hint.)
+Source tags: `<source>` ∈ {from-user, from-file, inferred, guessed}. Be ruthless —
+anything you did not directly read or get told is `inferred` or `guessed`, not
+`from-file`/`from-user`.
 
-### Bottom line — emit FIRST, set off as its own block
+Before emitting anything, resolve an ambiguous fork: if the hint is vague (names no
+specific fork) AND more than one 🔴 Low-confidence foundational fork is plausible, do
+NOT pick one silently — list the candidate divergence points (one line each) and ask
+the user which they mean before producing the report. When the hint clearly points at
+one fork, or only one Low-confidence fork exists, pick it and proceed. (If the evidence
+shows no wrong turn at all, say so — don't manufacture one to match the hint.)
 
-    ■ BOTTOM LINE
-      Verdict: RESTART | CONTINUE — <half-line reason>
-      Wrong:   <icon> <assumption, one clause> · <icon> <assumption>   (1–3 items, each with its own icon)
-      Do now:  <the single most important corrective action>
+The verdict is internally `RESTART` or `CONTINUE` (see the Verdict rule below) — it is
+shown to the human ONLY as the plain-language callout, never as the bare token. Emit
+the report using EXACTLY this skeleton; start with the title (NO `---` above it), then
+put a `---` rule between each later block:
 
-On `CONTINUE`, "Wrong" lists the assumptions you are discarding; "Do now" stays an imperative action — the corrective step that follows from discarding them — before you proceed.
+    # 🧭 Drift check
+    **Cause —** <one plain sentence: what pulled the work off course, and that the user triggered this check>
 
-### Load-bearing problems — severity-sorted blocks
+    ---
 
-For each assumption that is load-bearing AND not 🟢 High-confidence, worst first
-(🔴 before 🟡), emit a three-line block:
+    > ## 🛑 Verdict — START OVER (clean slate)
+    > <2–3 plain sentences: the call and why. NO jargon — never "re-ground", "brief", or "context window".>
+    >
+    > **What's wrong** — <the load-bearing bad assumption(s), in plain words>
+    > **The fix** — <the corrective action>
+    > **How the restart happens** — I save a short summary (confirmed facts + corrected plan) to a file; you run `/clear`, then `/bonk:resume` reloads it so we keep working without the wrong assumption following along.
 
-    ① 🔴 <assumption, stated plainly>
-       <source> — <why it's shaky, one line>
-       flips: <what evidence would confirm or kill it>
+    ---
 
-- `<source>` ∈ {from-user, from-file, inferred, guessed}. Be ruthless: anything you
-  did not directly read or get told is `inferred` or `guessed`, not
-  `from-file`/`from-user`.
-- If nothing is both load-bearing AND shaky (nothing is actually wrong), say so
-  plainly — do NOT manufacture a problem to fill this section.
+    ### ⚖️ Load-bearing problems
 
-Then collapse the trusted (🟢 High) facts to ONE line so suspect-vs-solid is clear at a glance:
+    **🔴 ①  <assumption, stated plainly>**
+    > <source> — <why it's shaky, one line>
+    > *flips:* <what evidence would confirm or kill it>
 
-    Solid: (from-user) <fact> · (from-file) <fact>
+    ✅ **Solid** — (from-user) <fact> · (from-file) <fact>
 
-### Supporting context — trimmed one-liners below a divider
+    ---
 
-Emit each line only if it carries information; OMIT any empty line:
+    ### 📋 Context
 
-    ─────────────────────────────────────
-    Goal:       <one sentence; prefix "⚠ drift:" only if it drifted from the ask>
-    Divergence: <the one turn/decision that introduced the suspected wrong fork>
-    Dismissed:  <2–3 alternatives never seriously considered, "·"-separated>
-    Artifacts:  clean — nothing to undo
+    | | |
+    |---|---|
+    | **Goal** | <one sentence; prefix "⚠ drift:" only if it drifted from the ask> |
+    | **Divergence** | <the one turn/decision that introduced the wrong fork> |
+    | **Dismissed** | <2–3 alternatives never seriously considered, "·"-separated> |
+    | **Artifacts** | ✅ clean — nothing to undo |
 
-`Artifacts` shows the one-liner above when the working tree is clean. Expand it to
-the full file list + undo guidance ONLY when wrong-path residue exists:
-
-- uncommitted edits made by your edit tools → `/rewind` (code-only restore).
-- committed changes, or anything a bash command created/moved → git
-  (`git checkout -- <file>` / `git revert <sha>`); `/rewind` cannot undo these.
+Skeleton rules:
+- **Verdict callout.** The skeleton shows the `RESTART` form. On `CONTINUE`, swap it to
+  `> ## ✅ Verdict — KEEP GOING (just fix one thing)`, DROP the "How the restart happens"
+  line, and let "The fix" be the in-place correction you then proceed with.
+- **Load-bearing problems.** One block per assumption that is load-bearing AND not 🟢
+  High, worst first (🔴 before 🟡); number them ①②③. If nothing is both load-bearing AND
+  shaky (nothing is actually wrong), say so plainly instead of a block list — do NOT
+  manufacture a problem. `✅ Solid` collapses the trusted (🟢 High) facts to one line.
+- **Context table.** Omit any row that carries no information. `Artifacts` is
+  `✅ clean — nothing to undo` when the tree is clean; expand it to the file list + undo
+  guidance ONLY when wrong-path residue exists:
+  - uncommitted edits made by your edit tools → `/rewind` (code-only restore).
+  - committed changes, or anything a bash command created/moved → git
+    (`git checkout -- <file>` / `git revert <sha>`); `/rewind` cannot undo these.
 
 ### Verdict rule
 
-The Bottom line's verdict follows this rule: if any FOUNDATIONAL assumption (the
-goal itself, or the core approach) is 🔴 Low → `RESTART` (go to Step 3b). Otherwise →
-`CONTINUE` (go to Step 3a).
+If any FOUNDATIONAL assumption (the goal itself, or the core approach) is 🔴 Low →
+`RESTART` (render the 🛑 "START OVER" callout, then go to Step 3b). Otherwise →
+`CONTINUE` (render the ✅ "KEEP GOING" callout, then go to Step 3a).
 
 ## Step 3a — If verdict is CONTINUE
 

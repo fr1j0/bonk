@@ -14,14 +14,18 @@ bad()  { echo "FAIL: $1"; fail=1; }
 
 # Structural markers that MUST appear in BOTH files.
 markers=(
-  "■ BOTTOM LINE"
-  "Verdict:"
-  "Wrong:"
-  "Do now:"
+  "# 🧭 Drift check"
+  "**Cause —**"
+  "Verdict —"
+  "START OVER (clean slate)"
+  "KEEP GOING (just fix one thing)"
+  "What's wrong"
+  "The fix"
+  "How the restart happens"
   "Load-bearing problems"
-  "Solid:"
-  "flips:"
-  "──────────"   # the section divider (10+ box chars)
+  "*flips:*"
+  "**Solid**"
+  "📋 Context"
   "🔴"
   "🟡"
 )
