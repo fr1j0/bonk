@@ -12,14 +12,27 @@ keep that scope clean, **every change starts as an issue.**
    - [Feature request](https://github.com/fr1j0/bonk/issues/new?labels=enhancement)
      — the problem first, then the proposed change.
    - [Question](https://github.com/fr1j0/bonk/issues/new?labels=question).
-2. **Wait for triage.** A maintainer will review and either close it, ask for more
-   info, or approve it for work. This saves you from writing code that's out of
-   scope (see below).
+2. **Wait for triage.** Every new issue is auto-labeled `needs-triage`. A maintainer
+   reviews and either closes it, asks for more info, or applies `ready-for-dev` once
+   it's approved to work on. This saves you from writing code that's out of scope
+   (see below).
 3. **Branch and code.** Create a topic branch named `<type>/issue-<N>-<slug>`
    (e.g. `feat/issue-12-brief-history`, `fix/issue-7-subdir-path`) **off `main`**.
    Never push to `main` directly.
 4. **Open a PR.** Include `Closes #<N>` in the PR body and describe what changed
-   and how you verified it.
+   and how you verified it. An automated **issue gate** checks the link.
+
+## The issue gate
+
+A PR must trace to an issue. The `Issue gate` workflow posts a sticky pass/fail
+comment and enforces:
+
+- **External contributors** — the linked issue must carry `ready-for-dev`, applied
+  by the repo owner. An un-triaged (`needs-triage`) issue isn't enough on its own.
+- **The repo owner's own PRs** — pass with *any* linked issue (e.g. just
+  `needs-triage`); the creator doesn't self-approve via `ready-for-dev`.
+- **Maintainer escape hatch** — an owner-applied `skip-issue-check` label bypasses
+  the gate entirely, for typo / CI / docs-only fixes with no issue.
 
 ## Why issue-first?
 
