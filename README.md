@@ -26,6 +26,17 @@ The real problem usually isn't the model's reasoning — it's the **polluted
 context** it keeps conditioning on (stale assumptions, dead ends, its own prior
 commitments). `bonk` is about re-grounding that context, not scolding the model.
 
+## Install
+
+In Claude Code:
+
+```
+/plugin marketplace add fr1j0/bonk
+/plugin install bonk@bonk
+```
+
+Then use `/bonk` and `/bonk:resume`.
+
 ## Usage ritual
 
 `bonk` runs *after* you've stopped the agent (a slash command can't interrupt a
@@ -53,4 +64,6 @@ Esc            # stop the wrong-path execution immediately
 
 ## Status
 
-Design phase. See [the design spec](docs/superpowers/specs/2026-06-16-bonk-design.md).
+v1 shipped. See [the design spec](docs/superpowers/specs/2026-06-16-bonk-design.md)
+for the full design and [the plan](docs/superpowers/plans/2026-06-16-bonk-v1.md)
+for how it was built.
