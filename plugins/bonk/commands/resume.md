@@ -1,8 +1,8 @@
 ---
-description: After /clear, rehydrate the clean brief from a /bonk restart and continue from the corrected approach on fresh context.
+description: After /clear, rehydrate the clean brief from a /bonk:it restart and continue from the corrected approach on fresh context.
 ---
 
-You are resuming after a `/bonk` restart and a `/clear`. Your context is
+You are resuming after a `/bonk:it` restart and a `/clear`. Your context is
 intentionally fresh — the polluted history is gone. The clean brief is now your
 single source of truth. Do NOT try to reconstruct or second-guess the discarded
 history.
@@ -13,7 +13,7 @@ Run:
 
     bash "${CLAUDE_PLUGIN_ROOT}/scripts/brief-validate.sh"
 
-- Exit 3 (no brief): tell the user "No clean brief found — run `/bonk` first to
+- Exit 3 (no brief): tell the user "No clean brief found — run `/bonk:it` first to
   produce one." Then stop.
 - Exit 4 (malformed): report which section the script said is missing, and ask the
   user to fix `.bonk/clean-brief.md`. Then stop.
