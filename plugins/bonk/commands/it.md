@@ -43,6 +43,14 @@ Output these sections, in order:
    turn or decision that introduced the suspected wrong fork. Use the hint as a
    lead.
 
+   Clarify before committing: if the hint is vague (names no specific fork) AND
+   more than one `Low`-confidence foundational fork is plausible, do NOT pick one
+   silently. List the candidate divergence points (one line each) and ask the user
+   which they mean before continuing to the verdict. When the hint clearly points
+   at one fork, or only one Low-confidence fork exists, pick it and proceed — do
+   not ask. (If the evidence shows no wrong turn at all, say so — don't manufacture
+   one to match the hint.)
+
 4. **Dismissed alternatives** — 2–3 interpretations or approaches you previously
    rejected or never seriously considered. State each plainly.
 
