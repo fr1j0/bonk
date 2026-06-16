@@ -1,8 +1,6 @@
 <p align="center">
-  <img src="assets/bonk.png" alt="bonk" width="320">
+  <img src="assets/bonk.png" alt="bonk" width="300">
 </p>
-
-# bonk 🔨
 
 <!-- the real ones -->
 [![version](https://img.shields.io/github/v/tag/fr1j0/bonk?label=version&color=blue)](https://github.com/fr1j0/bonk/tags)
