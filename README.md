@@ -1,4 +1,19 @@
-# bonk
+# bonk 🔨
+
+<!-- the real ones -->
+![status](https://img.shields.io/badge/status-design%20phase-orange)
+[![Claude Code](https://img.shields.io/badge/Claude%20Code-plugin-8A2BE2)](https://docs.claude.com/en/docs/claude-code)
+[![license](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
+[![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen)](https://github.com/fr1j0/bonk/issues)
+
+<!-- the honest ones -->
+![stop energy](https://img.shields.io/badge/stop%20energy-maximum-red)
+![vibes](https://img.shields.io/badge/vibes-rechecked-ff69b4)
+![context](https://img.shields.io/badge/context-freshly%20cleared-success)
+![powered by](https://img.shields.io/badge/powered%20by-the%20Esc%20key-lightgrey)
+![works on](https://img.shields.io/badge/works%20on-my%20machine-yellow)
+![agents bonked](https://img.shields.io/badge/agents%20bonked-%E2%88%9E-blueviolet)
+![sycophancy](https://img.shields.io/badge/%22you're%20absolutely%20right%22-blocked-critical)
 
 A pattern-interrupt and context re-grounding plugin for Claude Code.
 
