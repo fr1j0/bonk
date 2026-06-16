@@ -1,0 +1,31 @@
+name: tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: ShellCheck (severity warning+)
+        # ShellCheck ships preinstalled on ubuntu-latest runners.
+        # --severity=warning suppresses info-level findings (e.g. SC1091
+        # unresolved `source` paths for lib.sh, resolved only at runtime).
+        run: shellcheck --severity=warning plugins/bonk/scripts/*.sh
+
+  shell-tests:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v6
+      - name: Run the bonk test suite
+        run: bash plugins/bonk/scripts/test.sh

@@ -1,0 +1,71 @@
+name: Bug report
+description: Something bonk does but shouldn't, or doesn't but should.
+title: "[bug] "
+labels: ["bug", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for filing a bug. The more concrete the repro, the faster we can fix.
+        Please skim open issues first to avoid duplicates.
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: One or two sentences. What broke?
+      placeholder: "/bonk:resume can't find the brief when /bonk:it was run from a subdirectory."
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro_steps
+    attributes:
+      label: Steps to reproduce
+      description: Numbered steps from a clean state.
+      placeholder: |
+        1. From the repo root, run `/bonk:it` and confirm the brief.
+        2. Run `/clear`, then `/bonk:resume`.
+        3. ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected_vs_actual
+    attributes:
+      label: Expected vs actual
+      placeholder: |
+        Expected: the clean brief is rehydrated and work resumes.
+        Actual: "No clean brief found — run /bonk:it first."
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Claude Code version, OS, and shell.
+      placeholder: |
+        Claude Code: 1.x.x
+        OS: macOS 15.0
+        Shell: zsh / bash 5.x
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs / report output
+      description: Paste the relevant Drift-check report or script output. Redact anything sensitive.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: confirmation
+    attributes:
+      label: Confirmation
+      options:
+        - label: I searched existing issues and didn't find a duplicate.
+          required: true
+        - label: I'm running the latest `main` (or have noted the version above).
+          required: true
