@@ -1,0 +1,17 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "bonk",
+  "description": "bonk — pattern-interrupt + context re-grounding for Claude Code.",
+  "owner": { "name": "Fernando Castillo" },
+  "plugins": [
+    {
+      "name": "bonk",
+      "description": "Stop the agent's wrong path, audit its assumptions, and restart from clean context via a fresh-context subagent.",
+      "version": "0.1.0",
+      "source": "./plugins/bonk",
+      "author": { "name": "Fernando Castillo" },
+      "license": "MIT",
+      "keywords": ["claude-code", "context", "re-grounding", "productivity", "agents"]
+    }
+  ]
+}
