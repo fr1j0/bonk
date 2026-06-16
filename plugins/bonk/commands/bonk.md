@@ -47,7 +47,8 @@ Output these sections, in order:
    rejected or never seriously considered. State each plainly.
 
 5. **Artifact inventory** — the files from Step 1 attributable to the suspected
-   wrong path. For undo, advise (do NOT run anything destructive — identify only):
+   wrong path. **Identify only — do NOT run any destructive or undo command
+   yourself.** For undo, advise the user:
    - uncommitted edits made by your edit tools → `/rewind` (code-only restore).
    - committed changes, or anything a bash command created/moved → git
      (`git checkout -- <file>` / `git revert <sha>`); `/rewind` cannot undo these.
@@ -79,14 +80,9 @@ subagent. Stop here.
    ledger: **kept / dropped / contradicted**, with contradictions FIRST — a blind
    subagent contradicting you is the strongest signal you took a wrong turn.
 
-4. Ask the user to review. The one thing they MUST check is verified-fact
-   PROVENANCE: confirm each "verified fact" is genuinely from-user/from-file and
-   not a guess re-dressed as fact. Tell them they can edit the brief directly
-   before approving. Re-dispatching the subagent is only for when the whole
-   approach is wrong — it is not the default loop.
-
-5. On the user's approval, write the brief to `.bonk/clean-brief.md` using EXACTLY
-   this template (the resume command validates these four `##` headers):
+4. Present the DRAFT brief as a formatted block — **do NOT write any file yet** —
+   filling in EXACTLY this template (the resume command validates these four
+   `##` headers):
 
        # bonk clean brief
 
@@ -103,6 +99,13 @@ subagent. Stop here.
        ## Do not redo
        - <artifact-inventory note>
 
-6. Then tell the user verbatim:
+5. Ask the user to review and edit the draft directly. The one thing they MUST
+   check is verified-fact PROVENANCE: confirm each "verified fact" is genuinely
+   from-user/from-file, not a guess re-dressed as fact. Re-dispatching the
+   subagent is only for when the whole approach is wrong — it is not the default
+   loop. Write the file ONLY after the user explicitly confirms.
+
+6. On explicit confirmation, write the final (possibly user-edited) brief to
+   `.bonk/clean-brief.md`, then tell the user verbatim:
 
    > Brief saved to `.bonk/clean-brief.md`. Run `/clear`, then `/bonk:resume`.

@@ -21,7 +21,8 @@ Run:
 
 ## Step 2 — Rehydrate
 
-Read `.bonk/clean-brief.md` and internalize:
+Read the brief file at the path the script printed (by default
+`.bonk/clean-brief.md`) and internalize:
 - the **Goal** as your objective,
 - the **Verified facts** as the ONLY established facts (treat nothing else as
   known),
