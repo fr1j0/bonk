@@ -56,9 +56,10 @@ Esc            # stop the wrong-path execution immediately
 > Note: `/rewind` only undoes edits made by Claude's edit tools — not bash
 > side-effects (`rm`/`mv`/generated files), which need git.
 
-> Note: run `/bonk:it` and `/bonk:resume` from the **same project directory**. The
-> clean brief is saved under that project's `.bonk/`, so resuming from a different
-> directory (or outside the repo) won't find it.
+> Note: run `/bonk:it` and `/bonk:resume` in the **same project**. The clean brief
+> is saved under the repo root's `.bonk/` (resolved via `git`, so any subdirectory
+> of the repo works), but resuming from a *different* repo — or outside any repo,
+> where it anchors to the working directory — won't find it.
 
 ## 🧭 Commands
 

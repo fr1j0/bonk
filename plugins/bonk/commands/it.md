@@ -159,7 +159,14 @@ subagent. Stop here.
    > **Action:** reply `confirm` to write the brief — or reply with edits.
    > (Re-dispatch the subagent only if the whole approach is wrong.)
 
-6. On explicit confirmation, write the final (possibly user-edited) brief to
-   `.bonk/clean-brief.md`, then tell the user verbatim:
+6. On explicit confirmation, resolve the canonical brief path — do NOT hand-write
+   a relative `.bonk/...` path, which can land in the wrong directory and leave
+   `/bonk:resume` unable to find it:
+
+       bash "${CLAUDE_PLUGIN_ROOT}/scripts/brief-path.sh"
+
+   It prints one absolute path (and creates the `.bonk/` directory). Write the
+   final (possibly user-edited) brief to that EXACT path, then tell the user
+   verbatim:
 
    > Brief saved to `.bonk/clean-brief.md`. Run `/clear`, then `/bonk:resume`.
