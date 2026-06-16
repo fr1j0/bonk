@@ -30,7 +30,7 @@ The real problem usually isn't the model's reasoning — it's the **polluted
 context** it keeps conditioning on (stale assumptions, dead ends, its own prior
 commitments). `bonk` is about re-grounding that context, not scolding the model.
 
-## 📦 Install
+## Install
 
 In Claude Code:
 
@@ -41,7 +41,7 @@ In Claude Code:
 
 Then use `/bonk:it` and `/bonk:resume`.
 
-## 🛑 Usage ritual
+## Usage ritual
 
 `bonk` runs *after* you've stopped the agent (a slash command can't interrupt a
 running turn — only `Esc` can):
@@ -61,10 +61,10 @@ Esc            # stop the wrong-path execution immediately
 > of the repo works), but resuming from a *different* repo — or outside any repo,
 > where it anchors to the working directory — won't find it.
 
-## 🧭 Commands
+## Commands
 
 - **`/bonk:it [optional hint]`** — emits a **Drift check** report: what triggered
-  it, a plain-language verdict (🛑 *start over* or ✅ *keep going*), the load-bearing
+  it, a plain-language verdict (*start over* or *keep going*), the load-bearing
   assumptions ranked by confidence, and the context it's working from. On *start
   over*, a fresh-context subagent re-derives the approach blind to the bad turns;
   you approve, and it persists a clean brief.
@@ -74,7 +74,7 @@ Esc            # stop the wrong-path execution immediately
 > Want to see the report format? Run `bash plugins/bonk/scripts/preview-report.sh`
 > for a rendered sample.
 
-## 📍 Status
+## Status
 
 v0.4.0 shipped. See [the design spec](docs/superpowers/specs/2026-06-16-bonk-design.md)
 for the full design and [the plan](docs/superpowers/plans/2026-06-16-bonk-v1.md)
