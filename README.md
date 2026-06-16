@@ -76,9 +76,3 @@ v0.3.0 shipped. See [the design spec](docs/superpowers/specs/2026-06-16-bonk-des
 for the full design and [the plan](docs/superpowers/plans/2026-06-16-bonk-v1.md)
 for how it was built; the [report-format redesign](docs/superpowers/specs/2026-06-16-report-format-redesign-design.md)
 covers the current Drift-check report.
-
-## Credits
-
-"BONK" comic artwork via [Freepik](https://www.freepik.com) (Magnific). Used as a
-flattened raster under the Freepik content license; source vector files are not
-redistributed here.
