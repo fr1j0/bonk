@@ -73,7 +73,8 @@ drift test will fail.
 
 ## Local checks
 
-There's no hosted CI yet, so run the checks yourself before opening a PR:
+CI runs ShellCheck and the test suite on every PR (ubuntu + macOS). To match it
+locally before pushing:
 
 ```bash
 # One-time: install ShellCheck
