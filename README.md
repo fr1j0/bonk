@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/bonk.png" alt="bonk" width="320">
+</p>
+
 # bonk 🔨
 
 <!-- the real ones -->
