@@ -48,6 +48,10 @@ shown to the human ONLY as the plain-language banner + header, never as the bare
 Emit the report using EXACTLY this skeleton (the skeleton shows the `RESTART` form);
 the banner bands are fenced code blocks:
 
+<!-- Editor note: the skeleton below is indented 4 spaces, so it is a literal
+     code block — the inner ``` fences are characters to reproduce, not active
+     fences. Keep the 4-space indent; do not "tidy" it away. -->
+
     ```
     ═══════════  b o n k . i t  ·  ↺ DRIFT CHECK  ═══════════
     ```
