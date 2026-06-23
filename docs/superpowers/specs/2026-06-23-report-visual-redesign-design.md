@@ -48,7 +48,7 @@ render literally and monospace, forming unmistakable scroll-stops:
 
 ````
 ```
-═══════════════════  ↺  BONK · DRIFT CHECK  ═══════════════════
+═══════════  b o n k . i t  ·  ↺ DRIFT CHECK  ═══════════
 ```
 ````
 
@@ -60,11 +60,16 @@ render literally and monospace, forming unmistakable scroll-stops:
 ```
 ````
 
-- The leading glyph in the top band **encodes the verdict** (`↺` START OVER /
+- The top band carries a **minimal `b o n k . i t` wordmark** (letter-spaced inline
+  text, not multi-line block art) so the report opens with a light brand cue without
+  adding height — chosen over full ASCII-art wordmarks because `/bonk:it` fires often
+  and the opener must stay low-noise, especially on quiet KEEP GOING reports.
+- The glyph next to "DRIFT CHECK" **encodes the verdict** (`↺` START OVER /
   `▸` KEEP GOING), so the banner alone carries the headline.
-- Band width is nominal (~60 chars). Exact width is not load-bearing; if a narrow
+- Band width is nominal (~55 chars). Exact width is not load-bearing; if a narrow
   terminal wraps it, it still reads as a boundary. Instructions tell the model to
-  keep it on one line and not pad to terminal width.
+  keep it on one line and not pad to terminal width. The bottom band omits the
+  wordmark — `END · DRIFT CHECK` is enough to mark the close.
 
 ### 2. Monochrome icon system
 
