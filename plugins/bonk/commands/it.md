@@ -25,71 +25,80 @@ session from your own memory instead.
 
 Reason in whatever order you need internally, but EMIT the report in the reading
 order of the skeleton below. Render it as RICH MARKDOWN — it is shown to a human in a
-terminal, so make it scannable: a title, a blockquote verdict callout, bold labels,
-the confidence icons, and `---` rules between blocks. Do NOT skip the analysis to
-reach the verdict faster — the verdict must be earned by the problems beneath it.
+terminal, so make it scannable: open and close with the fenced banner bands so the
+report can't get lost in log output, lead with the verdict, use the monochrome
+confidence glyphs, and keep the grid cells terse. Do NOT skip the analysis to reach
+the verdict faster — the verdict must be earned by the problems beneath it.
 
-Confidence icons (coarse buckets only — NEVER percentages): 🔴 Low · 🟡 Medium · 🟢 High.
+Confidence glyphs (coarse buckets only — NEVER percentages): `○` Low · `◐` Medium · `●` High.
 
 Source tags: `<source>` ∈ {from-user, from-file, inferred, guessed}. Be ruthless —
 anything you did not directly read or get told is `inferred` or `guessed`, not
 `from-file`/`from-user`.
 
 Before emitting anything, resolve an ambiguous fork: if the hint is vague (names no
-specific fork) AND more than one 🔴 Low-confidence foundational fork is plausible, do
+specific fork) AND more than one `○` Low-confidence foundational fork is plausible, do
 NOT pick one silently — list the candidate divergence points (one line each) and ask
 the user which they mean before producing the report. When the hint clearly points at
 one fork, or only one Low-confidence fork exists, pick it and proceed. (If the evidence
 shows no wrong turn at all, say so — don't manufacture one to match the hint.)
 
 The verdict is internally `RESTART` or `CONTINUE` (see the Verdict rule below) — it is
-shown to the human ONLY as the plain-language callout, never as the bare token. Emit
-the report using EXACTLY this skeleton; start with the title (NO `---` above it), then
-put a `---` rule between each later block:
+shown to the human ONLY as the plain-language banner + header, never as the bare token.
+Emit the report using EXACTLY this skeleton (the skeleton shows the `RESTART` form);
+the banner bands are fenced code blocks:
 
-    # 🧭 Drift check
-    **Cause —** <one plain sentence: what pulled the work off course, and that the user triggered this check>
+    ```
+    ═══════════  b o n k . i t  ·  ↺ DRIFT CHECK  ═══════════
+    ```
 
-    ---
+    ## ↺ START OVER — <one plain-language headline; the call in a few words>
 
-    > ## 🛑 Verdict — START OVER (clean slate)
     > <2–3 plain sentences: the call and why. NO jargon — never "re-ground", "brief", or "context window".>
-    >
-    > **What's wrong** — <the load-bearing bad assumption(s), in plain words>
-    > **The fix** — <the corrective action>
-    > **How the restart happens** — I save a short summary (confirmed facts + corrected plan) to a file; you run `/clear`, then `/bonk:resume` reloads it so we keep working without the wrong assumption following along.
 
-    ---
+    **What's wrong** — <the load-bearing bad assumption(s), in plain words>
+    **The fix** — <the corrective action>
+    **Restart path** — save confirmed facts + corrected plan to a file → `/clear` → `/bonk:resume` reloads it, so the wrong assumption doesn't follow along.
 
-    ### ⚖️ Load-bearing problems
+    ### ▌Load-bearing problems
 
-    **🔴 ①  <assumption, stated plainly>**
-    > <source> — <why it's shaky, one line>
-    > *flips:* <what evidence would confirm or kill it>
+    |  | Assumption | Source | Why shaky → what flips it |
+    |---|---|---|---|
+    | `○` | <assumption, stated plainly and terse> | `guessed` | <why it's shaky, one line> → flips if <evidence that would confirm or kill it> |
+    | `◐` | <assumption, terse> | `inferred` | <one line> → flips if <evidence> |
 
-    ✅ **Solid** — (from-user) <fact> · (from-file) <fact>
+    `○` low · `◐` med · `●` high confidence
 
-    ---
+    `✓ solid` (from-user) <fact> · (from-file) <fact>
 
-    ### 📋 Context
+    ### ▌Context
 
-    | | |
-    |---|---|
-    | **Goal** | <one sentence; prefix "⚠ drift:" only if it drifted from the ask> |
-    | **Divergence** | <the one turn/decision that introduced the wrong fork> |
-    | **Dismissed** | <2–3 alternatives never seriously considered, "·"-separated> |
-    | **Artifacts** | ✅ clean — nothing to undo |
+    **Goal** — <one sentence; prefix "drift:" only if it drifted from the ask>
+    **Divergence** — <the one turn/decision that introduced the wrong fork>
+    **Dismissed** — <2–3 alternatives never seriously considered, "·"-separated>
+    **Artifacts** — clean; nothing to undo
+
+    ```
+    ══════════════════════  END · DRIFT CHECK  ═══════════════════
+    ```
 
 Skeleton rules:
-- **Verdict callout.** The skeleton shows the `RESTART` form. On `CONTINUE`, swap it to
-  `> ## ✅ Verdict — KEEP GOING (just fix one thing)`, DROP the "How the restart happens"
-  line, and let "The fix" be the in-place correction you then proceed with.
-- **Load-bearing problems.** One block per assumption that is load-bearing AND not 🟢
-  High, worst first (🔴 before 🟡); number them ①②③. If nothing is both load-bearing AND
-  shaky (nothing is actually wrong), say so plainly instead of a block list — do NOT
-  manufacture a problem. `✅ Solid` collapses the trusted (🟢 High) facts to one line.
-- **Context table.** Omit any row that carries no information. `Artifacts` is
-  `✅ clean — nothing to undo` when the tree is clean; expand it to the file list + undo
+- **Banner bands.** Open with the top band and close with the bottom band, each as a
+  fenced code block so they render as literal monospace scroll-stops. Keep each on ONE
+  line; do not pad to terminal width. The top band carries the `b o n k . i t` wordmark
+  and the verdict glyph next to `DRIFT CHECK`. On `CONTINUE`, swap the top band's `↺` to
+  `▸` so it reads `b o n k . i t  ·  ▸ DRIFT CHECK`.
+- **Verdict header.** The skeleton shows the `RESTART` form (`## ↺ START OVER — …`). On
+  `CONTINUE`, swap it to `## ▸ KEEP GOING — <headline>`, DROP the `Restart path` line,
+  and let `The fix` be the in-place correction you then proceed with.
+- **Load-bearing problems.** One ROW per assumption that is load-bearing AND not `●`
+  High, worst first (`○` before `◐`). Keep every cell terse — long cells wrap badly in a
+  terminal. If nothing is both load-bearing AND shaky (nothing is actually wrong), say so
+  plainly in one line instead of an empty grid — do NOT manufacture a problem. Always
+  print the `` `○` low · `◐` med · `●` high confidence `` legend under the table. The
+  `✓ solid` line collapses the trusted (`●` High) facts to one line.
+- **Context.** Labeled rows; omit any row that carries no information. `Artifacts` is
+  `clean; nothing to undo` when the tree is clean; expand it to the file list + undo
   guidance ONLY when wrong-path residue exists:
   - uncommitted edits made by your edit tools → `/rewind` (code-only restore).
   - committed changes, or anything a bash command created/moved → git
@@ -97,9 +106,9 @@ Skeleton rules:
 
 ### Verdict rule
 
-If any FOUNDATIONAL assumption (the goal itself, or the core approach) is 🔴 Low →
-`RESTART` (render the 🛑 "START OVER" callout, then go to Step 3b). Otherwise →
-`CONTINUE` (render the ✅ "KEEP GOING" callout, then go to Step 3a).
+If any FOUNDATIONAL assumption (the goal itself, or the core approach) is `○` Low →
+`RESTART` (render the `↺ START OVER` banner + header, then go to Step 3b). Otherwise →
+`CONTINUE` (render the `▸ KEEP GOING` banner + header, then go to Step 3a).
 
 ## Step 3a — If verdict is CONTINUE
 
@@ -122,7 +131,7 @@ subagent. Stop here.
 3. Present the subagent's result as a DELTA against your original assumption
    ledger: **kept / dropped / contradicted**, with contradictions FIRST — a blind
    subagent contradicting you is the strongest signal you took a wrong turn. Use the
-   same confidence icons as the report (🔴 Low · 🟡 Medium · 🟢 High) so the delta
+   same confidence glyphs as the report (`○` Low · `◐` Medium · `●` High) so the delta
    reads consistently with Step 2.
 
 4. Present the DRAFT brief as a formatted block — **do NOT write any file yet** —
