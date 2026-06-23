@@ -29,77 +29,74 @@ render() {
 
 restart_example() {
   cat <<'EOF'
-# 🧭 Drift check
-**Cause —** Context drift: you flagged the direction as wrong, and the audit confirms it — the work veered onto an unverified assumption and away from your actual goal.
+```
+═══════════  b o n k . i t  ·  ↺ DRIFT CHECK  ═══════════
+```
 
----
+## ↺ START OVER — restart from confirmed facts only
 
-> ## 🛑 Verdict — START OVER (clean slate)
-> The work so far is built on an assumption that's probably wrong, so continuing would just stack more on a bad foundation. Drop this direction and restart the task from only what we've confirmed.
->
-> **What's wrong** — assumed the FastAPI service already has API-key auth. It doesn't — so there's nothing to attach the rate limit to.
-> **The fix** — add an API-key layer first, or the limiter just falls back to limiting per IP.
-> **How the restart happens** — I save a short summary (confirmed facts + corrected plan) to a file; you run `/clear`, then `/bonk:resume` reloads it so we keep working without the wrong assumption following along.
+> Continuing would stack more work on a foundation that's probably wrong. The load-bearing assumption doesn't hold, so the credible move is to reset to what's verified and rebuild from there.
 
----
+**What's wrong** — assumed the FastAPI service already has API-key auth. It doesn't, so there's nothing to attach the rate limit to.
+**The fix** — add an API-key layer first, or the limiter silently falls back to per-IP.
+**Restart path** — save confirmed facts + corrected plan to a file → `/clear` → `/bonk:resume` reloads it, so the wrong assumption doesn't follow along.
 
-### ⚖️ Load-bearing problems
+### ▌Load-bearing problems
 
-**🔴 ①  The service has per-caller API keys to limit on**
-> `guessed` — no key handling anywhere; `app/main.py` is one unauthenticated route
-> *flips:* a key scheme elsewhere in the repo (there is none)
+|  | Assumption | Source | Why shaky → what flips it |
+|---|---|---|---|
+| `○` | Service has per-caller API keys to limit on | `guessed` | No key handling anywhere; one unauthenticated route → flips if a key scheme exists in the repo (there is none) |
+| `◐` | slowapi cleanly supports per-key keying | `inferred` | Default `key_func` is per-IP → flips if a custom `key_func` is acceptable |
 
-**🟡 ②  slowapi cleanly supports per-key keying**
-> `inferred` — default `key_func` is per-IP; per-key needs a custom one
-> *flips:* confirming a custom `key_func` is acceptable
+`○` low · `◐` med · `●` high confidence
 
-✅ **Solid** — (from-user) 100 req/min per key · (from-file) slowapi in requirements, no Redis
+`✓ solid` (from-user) 100 req/min per key · (from-file) slowapi in requirements, no Redis
 
----
+### ▌Context
 
-### 📋 Context
+**Goal** — add per-API-key rate limiting (100/min) to the FastAPI service
+**Divergence** — pattern-matched "API + rate-limit" → Express, never verified the stack
+**Dismissed** — per-IP limiting · fastapi-limiter (Redis-native)
+**Artifacts** — clean; nothing to undo
 
-| | |
-|---|---|
-| **Goal** | add per-API-key rate limiting (100/min) to the FastAPI service |
-| **Divergence** | pattern-matched "API + rate-limit" → Express, never verified the stack |
-| **Dismissed** | per-IP limiting · fastapi-limiter (Redis-native) |
-| **Artifacts** | ✅ clean — nothing to undo |
+```
+══════════════════════  END · DRIFT CHECK  ═══════════════════
+```
 EOF
 }
 
 continue_example() {
   cat <<'EOF'
-# 🧭 Drift check
-**Cause —** Minor drift: the core direction is intact, but one secondary assumption was off.
+```
+═══════════  b o n k . i t  ·  ▸ DRIFT CHECK  ═══════════
+```
 
----
+## ▸ KEEP GOING — the plan holds, fixing one thing in place
 
-> ## ✅ Verdict — KEEP GOING (just fix one thing)
 > The overall plan is sound — no restart needed. I'm dropping the wrong assumption below and continuing right here.
->
-> **What's wrong** — assumed the cache TTL is 60s; it's actually **600s** (`config/cache.yaml`).
-> **The fix** — recompute the expiry window with 600s and carry on.
 
----
+**What's wrong** — assumed the cache TTL is 60s; it's actually 600s (`config/cache.yaml`).
+**The fix** — recompute the expiry window with 600s and carry on.
 
-### ⚖️ Load-bearing problems
+### ▌Load-bearing problems
 
-**🟡 ①  Cache TTL is 60 seconds**
-> `inferred` — read the default, not the env override in `config/cache.yaml`
-> *flips:* the config file (already checked — it's 600s)
+|  | Assumption | Source | Why shaky → what flips it |
+|---|---|---|---|
+| `◐` | Cache TTL is 60 seconds | `inferred` | Read the default, not the env override → flips if the config file says otherwise (it's 600s) |
 
-✅ **Solid** — (from-user) invalidate on write · (from-file) Redis-backed cache in deps
+`○` low · `◐` med · `●` high confidence
 
----
+`✓ solid` (from-user) invalidate on write · (from-file) Redis-backed cache in deps
 
-### 📋 Context
+### ▌Context
 
-| | |
-|---|---|
-| **Goal** | add write-through caching to the profile endpoint |
-| **Divergence** | used the 60s default instead of the 600s override when sizing the window |
-| **Artifacts** | ✅ clean — nothing to undo |
+**Goal** — add write-through caching to the profile endpoint
+**Divergence** — used the 60s default instead of the 600s override when sizing the window
+**Artifacts** — clean; nothing to undo
+
+```
+══════════════════════  END · DRIFT CHECK  ═══════════════════
+```
 EOF
 }
 
